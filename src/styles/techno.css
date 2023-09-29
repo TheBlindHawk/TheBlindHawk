@@ -1,0 +1,75 @@
+.profile-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.name {
+	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-size: 50;
+	text-align: center;
+    padding-top: 0;
+    color: #EC5800;
+}
+
+.main-logo {
+    max-height: 40vh;
+}
+
+.site-logo-list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    padding-top: 2vw;
+    width: 400px;
+}
+
+.site-logo {
+    flex: 1;
+    position: relative;
+}
+
+.site-logo img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: min(100%, 100px);
+    max-height: 100px;
+}
+
+.site-logo:hover:after {
+    position: absolute;
+    content: '';
+    height: 4px;
+    bottom: -8px; 
+    transform: rotate(-3deg);
+    background: #F08000;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    width: 60%;
+}
+
+.site-logo:nth-child(2):after {
+    bottom: 4px; 
+}
+
+.site-logo:nth-child(3):after {
+    bottom: -11px; 
+}
+
+.fadeaway {
+    font-family: Arial, Helvetica, sans-serif;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    visibility: hidden;
+}
+
+.fadeaway .title {
+    font-size: 80px;
+}
