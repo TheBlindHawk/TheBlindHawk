@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import '../styles/navigation.css'
 
 const NavStateContext = React.createContext<{fontSize: string}>({fontSize: "50px"})
 
@@ -30,10 +29,9 @@ export const NavProvider = ({ children }: { children: React.ReactNode }) => {
 			<div className="sidenav" style={sideNav}>
 				<a href="javascript:void(0)" className="closebtn" onClick={closeNav}>&times;</a>
 				<a href="/" className="menulist">Home</a>
-				<a href="/gallery" className="menulist">Gallery</a>
 				<a href="/techno" className="menulist">Techno</a>
+				<a href="/gallery" className="menulist">Gallery</a>
 				<a href="/gaming" className="menulist">Gaming</a>
-				<a href="/japan" className="menulist">Japan</a>
 				<a href="/about" className="menulist">About</a>
 			</div>
 
