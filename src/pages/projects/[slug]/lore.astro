@@ -1,0 +1,44 @@
+---
+import { getCollection, render } from "astro:content";
+import GameProjectLayout from "../../../components/game/GameProjectLayout.astro";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects
+    .filter((p) => p.data.category === "game-dev")
+    .map((p) => ({ params: { slug: p.id } }));
+}
+
+const { slug } = Astro.params;
+const projects = await getCollection("projects");
+const project = projects.find((p) => p.id === slug)!;
+
+const allLore = await getCollection("lore");
+const entries = allLore
+  .filter((e) => e.data.project === slug)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const rendered = await Promise.all(
+  entries.map(async (entry) => {
+    const { Content } = await render(entry);
+    return { entry, Content };
+  })
+);
+---
+
+<GameProjectLayout title="Lore" projectTitle={project.data.title} slug={slug!}>
+  {rendered.length === 0 ? (
+    <p class="text-[var(--muted)] text-sm">No lore entries added yet.</p>
+  ) : (
+    <div class="max-w-2xl flex flex-col gap-12">
+      {rendered.map(({ entry, Content }) => (
+        <article>
+          <h2 class="mb-4 text-lg font-semibold">{entry.data.title}</h2>
+          <div class="prose prose-invert prose-sm max-w-none text-[var(--text)] [&_a]:text-[var(--accent)]">
+            <Content />
+          </div>
+        </article>
+      ))}
+    </div>
+  )}
+</GameProjectLayout>

@@ -1,0 +1,64 @@
+---
+import { getCollection } from "astro:content";
+import GameProjectLayout from "../../../components/game/GameProjectLayout.astro";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects
+    .filter((p) => p.data.category === "game-dev")
+    .map((p) => ({ params: { slug: p.id } }));
+}
+
+const { slug } = Astro.params;
+const projects = await getCollection("projects");
+const project = projects.find((p) => p.id === slug)!;
+
+const allCharacters = await getCollection("characters");
+const characters = allCharacters
+  .filter((c) => c.data.project === slug)
+  .sort((a, b) => a.data.name.localeCompare(b.data.name));
+---
+
+<GameProjectLayout title="Characters" projectTitle={project.data.title} slug={slug!}>
+  {characters.length === 0 ? (
+    <p class="text-[var(--muted)] text-sm">No characters added yet.</p>
+  ) : (
+    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {characters.map((char) => (
+        <li class="flex flex-col gap-3 rounded-lg border border-[var(--border)] bg-[var(--surface)] overflow-hidden">
+          {char.data.portrait ? (
+            <img
+              src={char.data.portrait}
+              alt={char.data.name}
+              class="h-48 w-full object-cover object-top"
+            />
+          ) : (
+            <div class="h-48 w-full bg-[var(--border)] flex items-center justify-center text-[var(--muted)] text-xs">
+              No portrait
+            </div>
+          )}
+          <div class="p-4 flex flex-col gap-2">
+            <div class="flex items-center justify-between gap-2">
+              <h3 class="font-medium">{char.data.name}</h3>
+              {char.data.role && (
+                <span class="text-xs text-[var(--accent)]">{char.data.role}</span>
+              )}
+            </div>
+            {char.body && (
+              <p class="text-sm text-[var(--muted)] leading-relaxed">{char.body}</p>
+            )}
+            {char.data.abilities.length > 0 && (
+              <ul class="flex flex-wrap gap-1.5 mt-1">
+                {char.data.abilities.map((ability: string) => (
+                  <li class="rounded bg-[var(--border)] px-2 py-0.5 text-xs text-[var(--muted)]">
+                    {ability}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </li>
+      ))}
+    </ul>
+  )}
+</GameProjectLayout>

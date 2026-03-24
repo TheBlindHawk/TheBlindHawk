@@ -1,0 +1,21 @@
+---
+interface Props {
+  links: { platform: string; url: string }[];
+}
+
+const { links } = Astro.props;
+---
+
+<div class="mt-16 pt-8 border-t border-[var(--border)] flex flex-wrap gap-x-6 gap-y-2">
+  <span class="text-xs text-[var(--muted)] self-center">Find me on</span>
+  {links.map(({ platform, url }) => (
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-sm text-[var(--muted)] hover:text-[var(--accent)] transition-colors"
+    >
+      {platform}
+    </a>
+  ))}
+</div>

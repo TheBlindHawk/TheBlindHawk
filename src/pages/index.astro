@@ -1,0 +1,54 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const sections = [
+  {
+    href: "/gallery",
+    label: "Gallery",
+    description: "Drawings, manga, and digital artwork.",
+  },
+  {
+    href: "/projects",
+    label: "Projects",
+    description: "Open-source tools and experiments on GitHub.",
+  },
+  {
+    href: "/travel",
+    label: "Travel",
+    description: "Places visited, photos taken, stories written.",
+  },
+];
+---
+
+<BaseLayout title="Home">
+  <!-- Hero -->
+  <section class="flex min-h-[60vh] flex-col justify-center py-20">
+    <p class="mb-3 text-sm tracking-widest text-[var(--accent)]">WELCOME TO THE NEST</p>
+    <h1 class="text-5xl font-bold tracking-tight sm:text-7xl">
+      BlindHawk
+    </h1>
+    <p class="mt-6 max-w-lg text-lg text-[var(--muted)] leading-relaxed">
+      Digital artist, developer, and traveler. This is where I keep
+      my work, my code, and my journeys.
+    </p>
+  </section>
+
+  <!-- Section previews -->
+  <section class="grid gap-4 sm:grid-cols-3 pb-20">
+    {sections.map(({ href, label, description }) => (
+      <a
+        href={href}
+        class="group flex flex-col gap-2 rounded-lg border border-[var(--border)] bg-[var(--surface)] p-6 transition-colors hover:border-[var(--accent)]"
+      >
+        <span class="text-xs tracking-widest text-[var(--accent)]">
+          {label.toUpperCase()}
+        </span>
+        <h2 class="text-lg font-medium">{label}</h2>
+        <p class="text-sm text-[var(--muted)]">{description}</p>
+        <span class="mt-auto text-xs text-[var(--muted)] transition-colors group-hover:text-[var(--accent)]">
+          Explore →
+        </span>
+      </a>
+    ))}
+  </section>
+</BaseLayout>

@@ -1,0 +1,51 @@
+---
+import { getCollection, render } from "astro:content";
+import GameProjectLayout from "../../../components/game/GameProjectLayout.astro";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects
+    .filter((p) => p.data.category === "game-dev")
+    .map((p) => ({ params: { slug: p.id } }));
+}
+
+const { slug } = Astro.params;
+const projects = await getCollection("projects");
+const project = projects.find((p) => p.id === slug)!;
+const { Content } = await render(project);
+
+const devStatusLabel: Record<string, string> = {
+  "in-development": "In Development",
+  "released": "Released",
+  "on-hold": "On Hold",
+  "cancelled": "Cancelled",
+};
+---
+
+<GameProjectLayout title="Overview" projectTitle={project.data.title} slug={slug!} description={project.data.description}>
+  <div class="max-w-2xl">
+    <!-- Meta row -->
+    <div class="mb-8 flex flex-wrap gap-3">
+      {project.data.devStatus && (
+        <span class="rounded-full border border-[var(--border)] px-3 py-1 text-xs text-[var(--muted)]">
+          {devStatusLabel[project.data.devStatus] ?? project.data.devStatus}
+        </span>
+      )}
+      {project.data.engine && (
+        <span class="rounded-full border border-[var(--border)] px-3 py-1 text-xs text-[var(--muted)]">
+          {project.data.engine}
+        </span>
+      )}
+      {project.data.tags.map((tag: string) => (
+        <span class="rounded-full bg-[var(--border)] px-3 py-1 text-xs text-[var(--muted)]">
+          {tag}
+        </span>
+      ))}
+    </div>
+
+    <!-- Body -->
+    <div class="prose prose-invert prose-sm max-w-none text-[var(--text)] [&_h2]:text-[var(--text)] [&_h3]:text-[var(--text)] [&_a]:text-[var(--accent)]">
+      <Content />
+    </div>
+  </div>
+</GameProjectLayout>

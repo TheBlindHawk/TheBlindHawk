@@ -1,0 +1,33 @@
+---
+import { getCollection } from "astro:content";
+import GameProjectLayout from "../../../components/game/GameProjectLayout.astro";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects
+    .filter((p) => p.data.category === "game-dev")
+    .map((p) => ({ params: { slug: p.id } }));
+}
+
+const { slug } = Astro.params;
+const projects = await getCollection("projects");
+const project = projects.find((p) => p.id === slug)!;
+const { mapImage, mapDescription } = project.data;
+---
+
+<GameProjectLayout title="Map" projectTitle={project.data.title} slug={slug!}>
+  {!mapImage ? (
+    <p class="text-[var(--muted)] text-sm">No map added yet.</p>
+  ) : (
+    <div class="flex flex-col gap-6">
+      <img
+        src={mapImage}
+        alt={`${project.data.title} — World Map`}
+        class="w-full rounded-lg border border-[var(--border)]"
+      />
+      {mapDescription && (
+        <p class="max-w-2xl text-sm text-[var(--muted)] leading-relaxed">{mapDescription}</p>
+      )}
+    </div>
+  )}
+</GameProjectLayout>

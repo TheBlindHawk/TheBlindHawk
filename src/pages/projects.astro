@@ -1,0 +1,115 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import SocialLinks from "../components/SocialLinks.astro";
+
+const CATEGORIES = [
+  { key: "game-dev",  label: "Game Dev" },
+  { key: "package",   label: "Packages" },
+  { key: "challenge", label: "Challenges" },
+] as const;
+
+type CategoryKey = (typeof CATEGORIES)[number]["key"];
+
+const projects = await getCollection("projects");
+
+const STATUS_ORDER: Record<string, number> = { ongoing: 0, maintained: 1, completed: 2, dropped: 3 };
+
+const sorted = projects.sort((a, b) => {
+  const sa = STATUS_ORDER[a.data.status ?? ""] ?? 2;
+  const sb = STATUS_ORDER[b.data.status ?? ""] ?? 2;
+  if (sa !== sb) return sa - sb;
+  return a.data.title.localeCompare(b.data.title);
+});
+
+const grouped = Object.fromEntries(
+  CATEGORIES.map(({ key }) => [
+    key,
+    sorted.filter((p) => p.data.category === key),
+  ])
+) as Record<CategoryKey, typeof sorted>;
+
+const hasAny = projects.length > 0;
+---
+
+<BaseLayout title="Projects" description="Open-source work and experiments by BlindHawk.">
+  <div class="py-16">
+    <header class="mb-12">
+      <p class="mb-2 text-sm tracking-widest text-[var(--accent)]">PROJECTS</p>
+      <h1 class="text-4xl font-bold">Code</h1>
+      <p class="mt-3 text-[var(--muted)]">
+        Open-source work, tools, and experiments.
+      </p>
+    </header>
+
+    {!hasAny && (
+      <p class="text-[var(--muted)] text-sm">Nothing here yet — check back soon.</p>
+    )}
+
+    {CATEGORIES.map(({ key, label }) => {
+      const items = grouped[key];
+      if (items.length === 0) return null;
+      return (
+        <section class="mb-14">
+          <h2 class="mb-6 text-xs tracking-widest text-[var(--accent)] uppercase border-b border-[var(--border)] pb-3">
+            {label}
+          </h2>
+          <ul class="grid gap-4 sm:grid-cols-2">
+            {items.map((project) => {
+              const isGameDev = project.data.category === "game-dev";
+              const href = isGameDev
+                ? `/projects/${project.id}`
+                : project.data.github!;
+              return (
+                <li>
+                  <a
+                    href={href}
+                    {...(!isGameDev ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    class="group flex flex-col gap-3 rounded-lg border border-[var(--border)] bg-[var(--surface)] p-6 transition-colors hover:border-[var(--accent)] h-full"
+                  >
+                    <div class="flex items-start justify-between gap-2">
+                      <h3 class="font-medium group-hover:text-[var(--accent)] transition-colors">
+                        {project.data.title}
+                      </h3>
+                      {project.data.status && (
+                        <span class={[
+                          "shrink-0 rounded px-1.5 py-0.5 text-xs",
+                          project.data.status === "ongoing"    && "border border-[var(--accent)] text-[var(--accent)]",
+                          project.data.status === "maintained" && "border border-emerald-500 text-emerald-500",
+                          project.data.status === "completed"  && "border border-[var(--muted)] text-[var(--muted)]",
+                          project.data.status === "dropped"    && "bg-[var(--border)] text-[var(--muted)]",
+                        ].filter(Boolean).join(" ")}>
+                          {project.data.status.charAt(0).toUpperCase() + project.data.status.slice(1)}
+                        </span>
+                      )}
+                    </div>
+                    <p class="text-sm text-[var(--muted)] leading-relaxed flex-1">
+                      {project.data.description}
+                    </p>
+                    {project.data.tags.length > 0 && (
+                      <ul class="flex flex-wrap gap-1.5">
+                        {project.data.tags.map((tag: string) => (
+                          <li class="rounded bg-[var(--border)] px-2 py-0.5 text-xs text-[var(--muted)]">
+                            {tag}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    <span class="text-xs text-[var(--muted)] group-hover:text-[var(--accent)] transition-colors">
+                      {isGameDev ? "View project →" : "GitHub →"}
+                    </span>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      );
+    })}
+
+    <SocialLinks links={[
+      { platform: "GitHub",    url: "https://github.com/TheBlindHawk" },
+      { platform: "Twitter / X", url: "#" },
+    ]} />
+  </div>
+</BaseLayout>

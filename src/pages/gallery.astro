@@ -1,0 +1,58 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import GalleryGrid, { type GalleryItem } from "../components/gallery/GalleryGrid";
+import SocialLinks from "../components/SocialLinks.astro";
+
+const items: GalleryItem[] = [
+  { type: "single", src: "/images/gallery/miku-underwater.png", alt: "Miku Underwater", category: "Character" },
+  { type: "single", src: "/images/gallery/yanfei.png",          alt: "Yanfei",          category: "Character" },
+  { type: "single", src: "/images/gallery/shrine.png",          alt: "Shrine",          category: "Background" },
+  { type: "single", src: "/images/gallery/Demon_girl.png",      alt: "Demon Girl",      category: "Character",   date: "2025-01-01" },
+  { type: "single", src: "/images/gallery/Spider_girl.png",     alt: "Spider Girl",     category: "Character",   date: "2025-01-02" },
+  { type: "single", src: "/images/gallery/Wolf_girl.png",       alt: "Wolf Girl",       category: "Character",   date: "2025-01-03" },
+  {
+    type: "group",
+    title: "Mika",
+    cover: "/images/gallery/Mika/0001.png",
+    category: "Manga",
+    date: "2023-06-01",
+    images: Array.from({ length: 11 }, (_, i) => ({
+      src: `/images/gallery/Mika/${String(i + 1).padStart(4, "0")}.png`,
+      alt: `Mika — page ${i + 1}`,
+    })),
+  },
+];
+
+const sorted = [...items].sort((a, b) => {
+  if (a.date && b.date) return b.date.localeCompare(a.date);
+  if (a.date) return -1;
+  if (b.date) return 1;
+  return 0;
+});
+---
+
+<BaseLayout title="Gallery" description="Drawings, manga, and digital artwork by BlindHawk.">
+  <div class="py-16">
+    <header class="mb-12">
+      <p class="mb-2 text-sm tracking-widest text-[var(--accent)]">GALLERY</p>
+      <h1 class="text-4xl font-bold">Artwork</h1>
+      <p class="mt-3 text-[var(--muted)]">
+        Digital art, character designs, and manga pages.
+      </p>
+    </header>
+
+    {sorted.length > 0 ? (
+      <GalleryGrid items={sorted} client:load />
+    ) : (
+      <p class="text-[var(--muted)] text-sm">
+        Nothing here yet — check back soon.
+      </p>
+    )}
+
+    <SocialLinks links={[
+      { platform: "Twitter / X", url: "#" },
+      { platform: "Instagram",   url: "#" },
+      { platform: "YouTube",     url: "#" },
+    ]} />
+  </div>
+</BaseLayout>

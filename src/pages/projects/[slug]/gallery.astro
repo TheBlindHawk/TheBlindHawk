@@ -1,0 +1,38 @@
+---
+import { getCollection } from "astro:content";
+import GameProjectLayout from "../../../components/game/GameProjectLayout.astro";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects
+    .filter((p) => p.data.category === "game-dev")
+    .map((p) => ({ params: { slug: p.id } }));
+}
+
+const { slug } = Astro.params;
+const projects = await getCollection("projects");
+const project = projects.find((p) => p.id === slug)!;
+const screenshots = project.data.screenshots;
+---
+
+<GameProjectLayout title="Gallery" projectTitle={project.data.title} slug={slug!}>
+  {screenshots.length === 0 ? (
+    <p class="text-[var(--muted)] text-sm">No screenshots added yet.</p>
+  ) : (
+    <ul class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {screenshots.map((shot: { src: string; caption?: string }) => (
+        <li class="rounded-lg border border-[var(--border)] overflow-hidden bg-[var(--surface)]">
+          <img
+            src={shot.src}
+            alt={shot.caption ?? "Screenshot"}
+            class="w-full object-cover"
+            loading="lazy"
+          />
+          {shot.caption && (
+            <p class="px-3 py-2 text-xs text-[var(--muted)]">{shot.caption}</p>
+          )}
+        </li>
+      ))}
+    </ul>
+  )}
+</GameProjectLayout>
