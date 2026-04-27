@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --dnd-bg:          #08060e;
+    --dnd-surface:     #110e1c;
+    --dnd-border:      #2a1f3d;
+    --dnd-text:        #e8dff5;
+    --dnd-muted:       #7b6a9a;
+    --dnd-demon:       #c0392b;
+    --dnd-demon-glow:  #ff4d2e;
+    --dnd-divine:      #d4a843;
+    --dnd-divine-glow: #ffe680;
+    --dnd-abyss:       #1a0a2e;
+
+    /* Aliases for shared components (GalleryGrid.tsx, etc.) */
+    --accent:  var(--dnd-divine);
+    --border:  var(--dnd-border);
+    --surface: var(--dnd-surface);
+    --bg:      var(--dnd-bg);
+    --muted:   var(--dnd-muted);
+    --text:    var(--dnd-text);
+  }
+
+  html {
+    background-color: var(--dnd-bg);
+    color: var(--dnd-text);
+    font-family: system-ui, "Inter", sans-serif;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background-color: var(--dnd-divine);
+    color: var(--dnd-bg);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  .dnd-display {
+    font-family: "Cinzel", "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  }
+}
+
+/* Scroll-driven reveal — no JS needed for .astro elements */
+@supports (animation-timeline: scroll()) {
+  .dnd-reveal {
+    opacity: 0;
+    transform: translateY(2rem);
+    animation: dnd-enter linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 35%;
+  }
+
+  .dnd-reveal-slow {
+    opacity: 0;
+    transform: translateY(2.5rem);
+    animation: dnd-enter linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 45%;
+  }
+
+  @keyframes dnd-enter {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Glow utilities */
+.dnd-glow-demon {
+  box-shadow: 0 0 24px color-mix(in srgb, var(--dnd-demon-glow) 40%, transparent);
+}
+
+.dnd-glow-divine {
+  box-shadow: 0 0 24px color-mix(in srgb, var(--dnd-divine-glow) 40%, transparent);
+}

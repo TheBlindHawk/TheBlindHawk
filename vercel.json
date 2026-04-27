@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "demons-and-divinity.theblindhawk.com" }],
+      "destination": "/dnd/:path*"
+    }
+  ]
+}

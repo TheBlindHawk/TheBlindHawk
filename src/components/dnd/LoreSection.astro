@@ -1,0 +1,71 @@
+---
+interface LoreEntry {
+  title: string;
+  body: string;
+  order: number;
+}
+
+interface Props {
+  entries: LoreEntry[];
+}
+
+const { entries } = Astro.props;
+---
+
+<section
+  id="lore"
+  class="relative py-32 px-6"
+  style="background: linear-gradient(to bottom, var(--dnd-bg) 0%, var(--dnd-abyss) 100%);"
+>
+  <!-- Divine glow top-right -->
+  <div
+    class="pointer-events-none absolute inset-0 overflow-hidden"
+    style="background: radial-gradient(ellipse 40% 50% at 100% 0%, color-mix(in srgb, var(--dnd-divine) 6%, transparent), transparent);"
+  ></div>
+
+  <div class="relative mx-auto max-w-3xl">
+    <p
+      class="dnd-display dnd-reveal mb-16 text-xs tracking-[0.4em] uppercase text-center"
+      style="color: var(--dnd-demon);"
+    >
+      Fragments of the War
+    </p>
+
+    {entries.length === 0 ? (
+      <p class="text-center text-sm" style="color: var(--dnd-muted);">
+        Lore fragments coming soon.
+      </p>
+    ) : (
+      <ol class="flex flex-col gap-12">
+        {entries.map((entry) => (
+          <li class="dnd-reveal-slow relative pl-8">
+            <!-- Vertical line connector -->
+            <div
+              class="absolute left-0 top-2 h-full w-px"
+              style="background: linear-gradient(to bottom, var(--dnd-border), transparent);"
+            ></div>
+            <!-- Diamond marker -->
+            <div
+              class="absolute left-[-4px] top-2"
+              style="color: var(--dnd-divine);"
+            >
+              <svg width="9" height="9" viewBox="0 0 12 12" fill="currentColor">
+                <polygon points="6,0 12,6 6,12 0,6"/>
+              </svg>
+            </div>
+
+            <h3
+              class="dnd-display mb-3 font-semibold tracking-wide"
+              style="color: var(--dnd-text);"
+            >
+              {entry.title}
+            </h3>
+            <p class="text-sm leading-relaxed" style="color: var(--dnd-muted);">
+              {entry.body}
+            </p>
+          </li>
+        ))}
+      </ol>
+    )}
+  </div>
+</section>

@@ -1,0 +1,66 @@
+---
+---
+
+<header
+  class="fixed top-0 inset-x-0 z-50 flex items-center justify-between px-6 py-4"
+  style="background: linear-gradient(to bottom, rgba(8,6,14,0.85) 0%, transparent 100%); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);"
+>
+  <!-- Logo -->
+  <a
+    href="#hero"
+    class="dnd-display text-sm font-semibold tracking-[0.2em] uppercase"
+    style="color: var(--dnd-divine); letter-spacing: 0.25em;"
+  >
+    Demons &amp; Divinity
+  </a>
+
+  <!-- Nav links -->
+  <nav class="hidden sm:flex items-center gap-6">
+    <a href="#story"      class="text-xs tracking-widest uppercase transition-colors hover:text-[var(--dnd-divine)]" style="color: var(--dnd-muted);">Story</a>
+    <a href="#characters" class="text-xs tracking-widest uppercase transition-colors hover:text-[var(--dnd-divine)]" style="color: var(--dnd-muted);">Characters</a>
+    <a href="#lore"       class="text-xs tracking-widest uppercase transition-colors hover:text-[var(--dnd-divine)]" style="color: var(--dnd-muted);">Lore</a>
+    <a href="#gallery"    class="text-xs tracking-widest uppercase transition-colors hover:text-[var(--dnd-divine)]" style="color: var(--dnd-muted);">Gallery</a>
+    <a
+      href="/"
+      class="text-xs tracking-widest uppercase transition-colors hover:text-[var(--dnd-text)]"
+      style="color: var(--dnd-muted); border-left: 1px solid var(--dnd-border); padding-left: 1.5rem; margin-left: 0.5rem;"
+    >
+      ← blindhawk.com
+    </a>
+  </nav>
+
+  <!-- Mobile menu button -->
+  <button
+    id="dnd-menu-btn"
+    class="sm:hidden p-2 rounded"
+    style="color: var(--dnd-muted);"
+    aria-label="Toggle navigation"
+  >
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+</header>
+
+<!-- Mobile dropdown -->
+<div
+  id="dnd-mobile-menu"
+  class="fixed top-16 inset-x-0 z-40 hidden flex-col gap-4 px-6 py-6 sm:hidden"
+  style="background: rgba(8,6,14,0.97); border-bottom: 1px solid var(--dnd-border);"
+>
+  <a href="#story"      class="text-sm tracking-widest uppercase" style="color: var(--dnd-muted);">Story</a>
+  <a href="#characters" class="text-sm tracking-widest uppercase" style="color: var(--dnd-muted);">Characters</a>
+  <a href="#lore"       class="text-sm tracking-widest uppercase" style="color: var(--dnd-muted);">Lore</a>
+  <a href="#gallery"    class="text-sm tracking-widest uppercase" style="color: var(--dnd-muted);">Gallery</a>
+  <a href="/"           class="text-sm tracking-widest uppercase" style="color: var(--dnd-muted); border-top: 1px solid var(--dnd-border); padding-top: 1rem; margin-top: 0.5rem;">← blindhawk.com</a>
+</div>
+
+<script>
+  const btn = document.getElementById("dnd-menu-btn");
+  const menu = document.getElementById("dnd-mobile-menu");
+  btn?.addEventListener("click", () => menu?.classList.toggle("hidden"));
+  // Close on link click
+  menu?.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => menu.classList.add("hidden")));
+</script>

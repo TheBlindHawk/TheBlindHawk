@@ -1,0 +1,86 @@
+---
+---
+
+<section
+  id="hero"
+  class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center"
+>
+  <!-- Layered atmospheric backgrounds -->
+  <!-- Abyss glow from below (demonic red) -->
+  <div
+    class="pointer-events-none absolute inset-0"
+    style="background: radial-gradient(ellipse 80% 50% at 50% 110%, color-mix(in srgb, var(--dnd-demon) 25%, transparent) 0%, transparent 70%);"
+  ></div>
+  <!-- Divine glow from above (gold) -->
+  <div
+    class="pointer-events-none absolute inset-0"
+    style="background: radial-gradient(ellipse 60% 40% at 70% -10%, color-mix(in srgb, var(--dnd-divine) 15%, transparent) 0%, transparent 60%);"
+  ></div>
+  <!-- Subtle vignette -->
+  <div
+    class="pointer-events-none absolute inset-0"
+    style="background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, rgba(8,6,14,0.7) 100%);"
+  ></div>
+
+  <!-- Optional hero image — place key art at public/images/dnd/hero-bg.webp to enable -->
+  <!-- <img src="/images/dnd/hero-bg.webp" alt="" class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-20" /> -->
+
+  <!-- Decorative divider line above title -->
+  <div
+    class="mb-8 flex items-center gap-4 w-64"
+    style="color: var(--dnd-divine);"
+  >
+    <div class="flex-1 h-px" style="background: linear-gradient(to right, transparent, var(--dnd-divine));"></div>
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+      <polygon points="6,0 12,6 6,12 0,6"/>
+    </svg>
+    <div class="flex-1 h-px" style="background: linear-gradient(to left, transparent, var(--dnd-divine));"></div>
+  </div>
+
+  <!-- Title -->
+  <h1
+    class="dnd-display relative z-10 font-bold leading-none tracking-[0.12em] uppercase"
+    style="font-size: clamp(2.5rem, 8vw, 7rem); color: var(--dnd-text); text-shadow: 0 0 60px color-mix(in srgb, var(--dnd-divine) 30%, transparent);"
+  >
+    Demons
+    <span
+      class="block text-center"
+      style="font-size: clamp(1rem, 2.5vw, 2rem); letter-spacing: 0.5em; color: var(--dnd-muted); margin: 0.4em 0;"
+    >
+      &amp;
+    </span>
+    Divinity
+  </h1>
+
+  <!-- Decorative divider line below title -->
+  <div
+    class="mt-8 flex items-center gap-4 w-64"
+    style="color: var(--dnd-demon);"
+  >
+    <div class="flex-1 h-px" style="background: linear-gradient(to right, transparent, var(--dnd-demon));"></div>
+    <svg width="8" height="8" viewBox="0 0 12 12" fill="currentColor">
+      <polygon points="6,0 12,6 6,12 0,6"/>
+    </svg>
+    <div class="flex-1 h-px" style="background: linear-gradient(to left, transparent, var(--dnd-demon));"></div>
+  </div>
+
+  <!-- Tagline -->
+  <p
+    class="relative z-10 mt-8 max-w-lg text-sm leading-relaxed tracking-wide"
+    style="color: var(--dnd-muted);"
+  >
+    A single-player platform RPG. Descend into the abyss and uncover the truth buried beneath the Divine-Demonic war.
+  </p>
+
+  <!-- CTA -->
+  <a
+    href="#story"
+    class="relative z-10 mt-12 flex flex-col items-center gap-2 transition-opacity hover:opacity-70"
+    style="color: var(--dnd-muted);"
+  >
+    <span class="dnd-display text-xs tracking-[0.3em] uppercase">Enter the Abyss</span>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="animate-bounce">
+      <polyline points="6 9 12 15 18 9" transform="rotate(0)"/>
+    </svg>
+  </a>
+</section>

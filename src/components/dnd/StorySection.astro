@@ -1,0 +1,91 @@
+---
+---
+
+<section
+  id="story"
+  class="relative py-32 px-6"
+  style="background: linear-gradient(to bottom, var(--dnd-bg) 0%, var(--dnd-abyss) 50%, var(--dnd-bg) 100%);"
+>
+  <!-- Subtle side glow -->
+  <div
+    class="pointer-events-none absolute inset-0 overflow-hidden"
+    style="background: radial-gradient(ellipse 40% 60% at 0% 50%, color-mix(in srgb, var(--dnd-demon) 8%, transparent), transparent);"
+  ></div>
+
+  <div class="relative mx-auto max-w-6xl">
+    <!-- Section label -->
+    <p
+      class="dnd-display dnd-reveal mb-12 text-xs tracking-[0.4em] uppercase text-center"
+      style="color: var(--dnd-demon);"
+    >
+      The Descent
+    </p>
+
+    <div class="grid gap-16 md:grid-cols-2 md:items-center">
+      <!-- Art placeholder / future image slot -->
+      <div
+        class="dnd-reveal relative aspect-[3/4] w-full max-w-sm mx-auto rounded-lg overflow-hidden"
+        style="border: 1px solid var(--dnd-border);"
+      >
+        <!-- Replace this div with an <img> once key art is ready -->
+        <!-- <img src="/images/dnd/story-art.webp" alt="The Abyss" class="h-full w-full object-cover" /> -->
+        <div
+          class="h-full w-full"
+          style="background: linear-gradient(160deg, var(--dnd-surface) 0%, var(--dnd-abyss) 60%, color-mix(in srgb, var(--dnd-demon) 20%, var(--dnd-bg)) 100%);"
+        >
+          <!-- Placeholder glyph -->
+          <div class="flex h-full items-center justify-center">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.75" style="color: var(--dnd-border);">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/>
+              <path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <p class="absolute bottom-4 inset-x-0 text-center text-xs" style="color: var(--dnd-border);">
+            artwork coming soon
+          </p>
+        </div>
+      </div>
+
+      <!-- Story text -->
+      <div class="flex flex-col gap-6">
+        <h2
+          class="dnd-reveal dnd-display text-4xl font-bold leading-tight"
+          style="color: var(--dnd-text);"
+        >
+          Into the Abyss
+        </h2>
+        <div
+          class="dnd-reveal flex flex-col gap-4 text-sm leading-relaxed"
+          style="color: var(--dnd-muted);"
+        >
+          <p>
+            Long before memory, the divine and the demonic fought a war that tore the world apart. The victors
+            wrote history. The defeated were buried beneath the abyss — silenced, forgotten, sealed away under
+            stone and silence.
+          </p>
+          <p>
+            You are <span style="color: var(--dnd-text);">the protagonist</span>. A lone figure descending
+            into that sealed darkness, not in search of power — but of truth. Something was hidden here.
+            Something the victors did not want found.
+          </p>
+          <p>
+            The deeper you go, the more the walls speak.
+          </p>
+        </div>
+
+        <!-- Tags -->
+        <div class="dnd-reveal flex flex-wrap gap-2 pt-2">
+          {["Platform RPG", "Single Player", "Unity", "Solo Project"].map((tag) => (
+            <span
+              class="rounded px-2.5 py-1 text-xs tracking-wide"
+              style="border: 1px solid var(--dnd-border); color: var(--dnd-muted);"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

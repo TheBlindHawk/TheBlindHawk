@@ -1,0 +1,119 @@
+---
+import DnDLayout from "../../layouts/DnDLayout.astro";
+import HeroSection from "../../components/dnd/HeroSection.astro";
+import StorySection from "../../components/dnd/StorySection.astro";
+import CharactersSection from "../../components/dnd/CharactersSection.tsx";
+import LoreSection from "../../components/dnd/LoreSection.astro";
+import GalleryGrid from "../../components/gallery/GalleryGrid.tsx";
+import { getCollection } from "astro:content";
+import type { GalleryItem } from "../../components/gallery/GalleryGrid.tsx";
+
+const SLUG = "demons-and-divinity";
+
+// Characters
+const allCharacters = await getCollection("characters");
+const characters = allCharacters
+  .filter((c) => c.data.project === SLUG)
+  .map((c) => ({
+    name: c.data.name,
+    role: c.data.role,
+    portrait: c.data.portrait,
+    abilities: c.data.abilities,
+  }));
+
+// Lore
+const allLore = await getCollection("lore");
+const loreEntries = allLore
+  .filter((l) => l.data.project === SLUG)
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((l) => ({ title: l.data.title, body: (l as any).body ?? "", order: l.data.order }));
+
+// Gallery — screenshots from the project content entry
+const allProjects = await getCollection("projects");
+const project = allProjects.find((p) => p.id === SLUG);
+const screenshots = project?.data.screenshots ?? [];
+
+const galleryItems: GalleryItem[] = screenshots.map((s) => ({
+  type: "single" as const,
+  src: s.src,
+  alt: s.caption ?? "Screenshot",
+  category: "screenshot",
+}));
+---
+
+<DnDLayout>
+  <HeroSection />
+  <StorySection />
+
+  <CharactersSection
+    client:visible
+    characters={characters}
+  />
+
+  <LoreSection
+    entries={loreEntries.map((e) => ({ title: e.title, body: e.body, order: e.order }))}
+  />
+
+  <!-- Gallery -->
+  <section
+    id="gallery"
+    class="py-32 px-6"
+    style="background: var(--dnd-bg);"
+  >
+    <div class="mx-auto max-w-6xl">
+      <p
+        class="dnd-display dnd-reveal mb-12 text-xs tracking-[0.4em] uppercase text-center"
+        style="color: var(--dnd-divine);"
+      >
+        Gallery
+      </p>
+
+      {galleryItems.length === 0 ? (
+        <p class="text-center text-sm" style="color: var(--dnd-muted);">
+          Screenshots coming soon.
+        </p>
+      ) : (
+        <GalleryGrid client:visible items={galleryItems} />
+      )}
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer
+    class="relative py-20 px-6 text-center"
+    style="border-top: 1px solid var(--dnd-border);"
+  >
+    <!-- Glow line -->
+    <div
+      class="pointer-events-none absolute top-0 inset-x-1/4 h-px"
+      style="background: linear-gradient(to right, transparent, var(--dnd-divine), transparent);"
+    ></div>
+
+    <p
+      class="dnd-display mb-6 text-lg tracking-[0.2em] uppercase font-semibold"
+      style="color: var(--dnd-text);"
+    >
+      Demons &amp; Divinity
+    </p>
+
+    <div class="flex items-center justify-center gap-6 text-xs tracking-widest uppercase" style="color: var(--dnd-muted);">
+      {project?.data.github && (
+        <a
+          href={project.data.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="transition-colors hover:text-[var(--dnd-divine)]"
+        >
+          GitHub
+        </a>
+      )}
+      <a href="/" class="transition-colors hover:text-[var(--dnd-divine)]">
+        ← blindhawk.com
+      </a>
+    </div>
+
+    <p class="mt-10 text-xs" style="color: var(--dnd-border);">
+      © {new Date().getFullYear()} BlindHawk
+    </p>
+  </footer>
+</DnDLayout>
